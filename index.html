@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Le Grand Vert — La Goulette</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Restaurant Le Grand Vert — La Goulette, Tunisie. Spécialités de la mer, couscous et cuisine tunisienne.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --green-deep:#021a12;--green-dark:#052e1c;--green-mid:#0a5c38;--green-accent:#16a364;
+      --green-light:#34d399;--gold:#c9a84c;--gold-light:#e8c97a;--cream:#f5f0e8;--white:#ffffff;
+      --ease-out-expo: cubic-bezier(0.16,1,0.3,1);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+    body{font-family:'Jost',sans-serif;background:var(--green-deep);color:var(--cream);overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4}
+
+    /* ─── NAVBAR ─── */
+    .lang-bar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:10px 24px;background:rgba(2,26,18,0);backdrop-filter:blur(0px);border-bottom:1px solid rgba(201,168,76,0);transition:background 0.5s ease,backdrop-filter 0.5s ease,border-color 0.5s ease}
+    .lang-bar.scrolled{background:rgba(2,26,18,0.92);backdrop-filter:blur(14px);border-bottom-color:rgba(201,168,76,0.12)}
+    .nav-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:0.15em;color:rgba(245,240,232,0.6);transition:color 0.3s}
+    .lang-bar.scrolled .nav-brand{color:var(--cream)}
+    .nav-right{display:flex;align-items:center;gap:8px}
+    .lang-btn{padding:5px 12px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;border:1px solid rgba(255,255,255,0.15);background:transparent;color:rgba(245,240,232,0.5);border-radius:2px;cursor:pointer;transition:all 0.3s;font-family:'Jost',sans-serif}
+    .lang-btn.active,.lang-btn:hover{border-color:var(--gold);color:var(--gold-light);background:rgba(201,168,76,0.1)}
+    .status-badge{display:flex;align-items:center;gap:7px;padding:5px 14px;border-radius:20px;font-size:10px;letter-spacing:0.2em;font-weight:500;text-transform:uppercase;margin-right:6px}
+    .status-badge.open{background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)}
+    .status-badge.closed{background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.25)}
+    .status-dot{width:7px;height:7px;border-radius:50%}
+    .open .status-dot{background:#34d399;animation:blink 1.5s infinite}
+    .closed .status-dot{background:#f87171}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+    /* ─── HERO ─── */
+    header{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:80px 20px 60px}
+    header::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(22,163,100,0.18) 0%,transparent 70%);border-radius:50%;animation:pulse 6s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:0.6}}
+    .ring{position:absolute;border-radius:50%;border:1px solid rgba(201,168,76,0.15);animation:spin linear infinite}
+    .ring-1{width:320px;height:320px;animation-duration:30s}.ring-2{width:520px;height:520px;border-color:rgba(22,163,100,0.08);animation-duration:50s;animation-direction:reverse}.ring-3{width:740px;height:740px;animation-duration:80s;border-color:rgba(201,168,76,0.06)}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    .logo-wrapper{position:relative;z-index:2;text-align:center}
+    .logo-ornament{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px}
+    .ornament-line{height:1px;width:60px;background:linear-gradient(to right,transparent,var(--gold))}.ornament-line.right{background:linear-gradient(to left,transparent,var(--gold))}
+    .ornament-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
+    .logo-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,12vw,96px);font-weight:300;letter-spacing:0.08em;line-height:1;color:var(--white)}
+    .logo-title span{color:var(--gold-light);font-style:italic}
+    .logo-arabic{font-size:clamp(18px,4vw,28px);font-weight:200;letter-spacing:0.2em;color:var(--green-light);margin-top:10px;opacity:0.85}
+    .logo-tagline{margin-top:24px;font-size:11px;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);opacity:0.8}
+    .scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.5}
+    .scroll-hint span{font-size:9px;letter-spacing:0.3em;text-transform:uppercase}
+    .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollDrop 2s ease-in-out infinite}
+    @keyframes scrollDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+    /* ─── SECTIONS ─── */
+    section{position:relative;z-index:1;padding:80px 20px;max-width:980px;margin:0 auto}
+    .section-label{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;opacity:0.7}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,6vw,52px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:40px}
+    .divider{display:flex;align-items:center;gap:14px;margin-bottom:50px}
+    .divider-line{flex:1;height:1px;background:linear-gradient(to right,var(--gold-light),transparent);opacity:0.3}
+    .divider-icon{color:var(--gold);font-size:12px;opacity:0.6}
+
+    /* ─── MENU ─── */
+    .menu-category{margin-bottom:56px;text-align:center}
+    .menu-category-title{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,4vw,32px);font-weight:300;color:var(--gold-light);letter-spacing:0.1em;margin-bottom:6px}
+    .menu-category-sub{font-size:12px;color:var(--green-light);opacity:0.7;margin-bottom:24px}
+    .menu-items{display:flex;flex-direction:column}
+    .menu-item-row{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:12px;transition:background 0.2s,padding 0.2s}
+    .menu-item-row:hover{background:rgba(255,255,255,0.02);border-radius:4px;padding-left:8px}
+    .menu-item-left{text-align:left;flex:1}
+    .menu-item-name{font-size:15px;font-weight:400;color:var(--cream)}
+    .menu-item-desc{font-size:11px;color:rgba(245,240,232,0.4);margin-top:4px;font-style:italic}
+    .menu-item-price{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--gold-light);white-space:nowrap;flex-shrink:0}
+    .menu-item-price span{font-size:11px;opacity:0.6;margin-left:2px}
+    .best-seller{display:inline-block;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,0.4);padding:2px 7px;border-radius:20px;margin-left:8px;vertical-align:middle}
+
+    /* ─── CARDS ─── */
+    .glass-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:2px;padding:50px 40px;backdrop-filter:blur(20px);position:relative;overflow:hidden}
+    .glass-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold-light),transparent);opacity:0.4}
+    @media(min-width:900px){.glass-card{padding:60px 80px}}
+
+
+    /* ─── ABOUT ─── */
+    .about-grid{display:grid;grid-template-columns:1fr;gap:28px;align-items:start}
+    .about-card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.02));border:1px solid rgba(201,168,76,0.12);border-radius:18px;padding:34px 26px;overflow:hidden}
+    .about-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(201,168,76,0.12),transparent 45%);pointer-events:none}
+    .about-kicker{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);opacity:0.9;margin-bottom:18px}
+    .about-kicker::before,.about-kicker::after{content:'';width:26px;height:1px;background:rgba(201,168,76,0.35)}
+    .about-lead{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4.4vw,40px);font-weight:300;line-height:1.12;color:var(--white);margin-bottom:18px}
+    .about-copy{display:grid;gap:14px}
+    .about-copy p{font-size:15px;line-height:1.95;color:rgba(245,240,232,0.82)}
+    .about-highlights{display:grid;grid-template-columns:1fr;gap:12px;margin-top:8px}
+    .about-pill{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:14px;background:rgba(255,255,255,0.03);font-size:13px;letter-spacing:0.08em;color:rgba(245,240,232,0.78)}
+    .about-pill i{color:var(--gold-light);font-size:14px}
+    @media(min-width:780px){.about-grid{grid-template-columns:1.25fr 0.9fr}.about-card{padding:42px 38px}.about-highlights{margin-top:24px}}
+
+    /* ─── SOCIAL ─── */
+    .social-icons{display:flex;justify-content:center;gap:30px;margin-top:10px}
+    .social-link{display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none;color:var(--cream);transition:transform 0.3s}
+    .social-link:hover{transform:translateY(-4px)}
+    .social-icon-wrap{width:64px;height:64px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:24px;transition:border-color 0.3s,background 0.3s;background:rgba(255,255,255,0.04)}
+    .social-link:hover .social-icon-wrap{background:rgba(255,255,255,0.08);border-color:rgba(201,168,76,0.4)}
+    .social-link .fb{color:#4f8ef7}.social-link .ig{color:#f06292}
+    .social-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;opacity:0.5}
+
+    /* ─── WIFI ─── */
+    .wifi-inner{display:flex;flex-direction:column;align-items:center;gap:28px}
+    .wifi-qr{width:200px;border-radius:8px;border:1px solid rgba(201,168,76,0.25);padding:12px;background:rgba(255,255,255,0.96)}
+
+    /* ─── BUTTONS ─── */
+    .btn-premium{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;background:transparent;border:1px solid var(--gold);color:var(--gold-light);font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.3em;text-transform:uppercase;text-decoration:none;border-radius:1px;transition:background 0.3s,color 0.3s,transform 0.2s;cursor:pointer}
+    .btn-premium:hover{background:var(--gold);color:var(--green-deep);transform:translateY(-2px)}
+    .btn-green{border-color:var(--green-light);color:var(--green-light)}.btn-green:hover{background:var(--green-light);color:var(--green-deep)}
+
+    /* ─── STARS ─── */
+    .stars{display:flex;justify-content:center;gap:6px;margin-bottom:24px}
+    .stars i{color:var(--gold);font-size:20px}
+
+    .resa-success .check-icon{width:56px;height:56px;border-radius:50%;border:1px solid var(--green-light);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--green-light);animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both}
+    @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    .resa-success p{font-size:13px;opacity:0.6;letter-spacing:0.08em}
+
+    /* ─── WHATSAPP FLOAT ─── */
+    .wa-float{position:fixed;bottom:28px;right:24px;z-index:999;width:58px;height:58px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:26px;color:white;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;animation:waPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both 1s;transition:transform 0.3s,box-shadow 0.3s}
+    .wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,0.55)}
+    @keyframes waPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+
+    /* ─── FOOTER ─── */
+    footer{position:relative;z-index:1;border-top:1px solid rgba(255,255,255,0.05);padding:40px 20px;text-align:center}
+    .footer-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:0.15em;color:var(--white);opacity:0.5;margin-bottom:8px}
+    .footer-copy{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;opacity:0.25}
+
+    /* ─── SEPARATORS ─── */
+    .section-sep{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.2),transparent);margin:0 40px}
+
+    /* ─── SCROLL ANIMATIONS — bidirectionnel ─── */
+    /* On entre depuis le bas quand on scroll vers le bas */
+    .reveal{opacity:0;transform:translateY(50px);transition:opacity 0.9s var(--ease-out-expo),transform 0.9s var(--ease-out-expo)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .reveal.exit-up{opacity:0;transform:translateY(-30px);transition:opacity 0.5s ease,transform 0.5s ease}
+    .reveal.exit-down{opacity:0;transform:translateY(30px);transition:opacity 0.5s ease,transform 0.5s ease}
+
+    .reveal-left{opacity:0;transform:translateX(-60px);transition:opacity 0.9s var(--ease-out-expo),transform 0.9s var(--ease-out-expo)}
+    .reveal-left.visible{opacity:1;transform:translateX(0)}
+    .reveal-left.exit-up{opacity:0;transform:translateX(-30px);transition:opacity 0.5s ease,transform 0.5s ease}
+
+    .reveal-right{opacity:0;transform:translateX(60px);transition:opacity 0.9s var(--ease-out-expo),transform 0.9s var(--ease-out-expo)}
+    .reveal-right.visible{opacity:1;transform:translateX(0)}
+    .reveal-right.exit-up{opacity:0;transform:translateX(30px);transition:opacity 0.5s ease,transform 0.5s ease}
+
+    .reveal-scale{opacity:0;transform:scale(0.88);transition:opacity 0.9s var(--ease-out-expo),transform 0.9s var(--ease-out-expo)}
+    .reveal-scale.visible{opacity:1;transform:scale(1)}
+    .reveal-scale.exit-up{opacity:0;transform:scale(0.95);transition:opacity 0.5s ease,transform 0.5s ease}
+
+    .line-reveal{width:0;height:1px;background:linear-gradient(to right,var(--gold),transparent);transition:width 1.2s var(--ease-out-expo);margin:0 auto 40px}
+    .line-reveal.visible{width:100%}
+    .line-reveal.exit-up{width:0;transition:width 0.5s ease}
+
+    .section-sep{transform:scaleX(0);transition:transform 1.4s var(--ease-out-expo)}
+    .section-sep.visible{transform:scaleX(1)}
+    .section-sep.exit-up{transform:scaleX(0);transition:transform 0.5s ease}
+
+    .delay-1{transition-delay:0.08s}.delay-2{transition-delay:0.16s}.delay-3{transition-delay:0.24s}.delay-4{transition-delay:0.32s}.delay-5{transition-delay:0.4s}
+
+    /* ─── PROGRESS BAR ─── */
+    .scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,var(--green-light),var(--gold));z-index:200;width:0%;transition:width 0.1s linear}
+
+    /* ─── COUNTER BADGES ─── */
+    .stat-row{display:flex;justify-content:center;gap:40px;margin:40px 0;flex-wrap:wrap}
+    .stat-item{text-align:center}
+    .stat-num{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,52px);font-weight:300;color:var(--gold-light);line-height:1}
+    .stat-label{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;opacity:0.45;margin-top:6px}
+
+    /* ─── LANG ─── */
+    body.lang-ar{direction:rtl}body.lang-ar .menu-item-left{text-align:right}body.lang-ar .resa-field{text-align:right}
+
+    /* ─── HERO ANIMATION ─── */
+    .hero-anim-1{animation:fadeUp 1s var(--ease-out-expo) 0.2s both}
+    .hero-anim-2{animation:fadeUp 1s var(--ease-out-expo) 0.4s both}
+    .hero-anim-3{animation:fadeUp 1s var(--ease-out-expo) 0.6s both}
+    .hero-anim-4{animation:fadeUp 1s var(--ease-out-expo) 0.8s both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ─── PARTICLE DOTS ─── */
+    .particle{position:absolute;border-radius:50%;background:var(--gold);pointer-events:none;opacity:0}
+    @keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(0)}20%{opacity:0.6}80%{opacity:0.3}100%{opacity:0;transform:translateY(-120px) scale(1.5)}}
+
+    /* ─── MOBILE ─── */
+    @media(max-width:480px){.stat-row{gap:24px}.social-icons{gap:20px}.stat-num{font-size:32px}}
+  </style>
+</head>
+<body>
+
+<!-- Barre de progression scroll -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAVBAR -->
+<div class="lang-bar" id="langBar">
+  <div class="nav-brand">Le Grand Vert</div>
+  <div class="nav-right">
+    <div class="status-badge open" id="statusBadge"><div class="status-dot"></div><span id="statusText">Ouvert</span></div>
+    <button class="lang-btn active" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('ar')">AR</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<!-- WHATSAPP FLOTTANT -->
+<a href="https://wa.me/21625371932" target="_blank" class="wa-float"><i class="fab fa-whatsapp"></i></a>
+
+<!-- HERO -->
+<header>
+  <div class="ring ring-1"></div><div class="ring ring-2"></div><div class="ring ring-3"></div>
+  <div class="logo-wrapper">
+    <div class="logo-ornament hero-anim-1"><div class="ornament-line"></div><div class="ornament-diamond"></div><div class="ornament-line right"></div></div>
+    <div class="logo-title hero-anim-2">Le Grand <span>Vert</span></div>
+    <div class="logo-arabic hero-anim-3">الأخضر الكبير</div>
+    <div class="logo-tagline hero-anim-4" data-fr="La Goulette · Tunisie" data-ar="حلق الوادي · تونس" data-en="La Goulette · Tunisia">La Goulette · Tunisie</div>
+  </div>
+  <!-- Stats animées -->
+  <div class="stat-row hero-anim-4">
+    <div class="stat-item"><div class="stat-num" data-target="15">0</div><div class="stat-label" data-fr="Ans d'expérience" data-ar="سنوات خبرة" data-en="Years of experience">Ans d'expérience</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="50">0</div><div class="stat-label" data-fr="Plats au menu" data-ar="طبقاً في القائمة" data-en="Dishes on menu">Plats au menu</div></div>
+    <div class="stat-item"><div class="stat-num" data-target="500">0</div><div class="stat-label" data-fr="Clients/semaine" data-ar="زبون أسبوعياً" data-en="Clients/week">Clients/semaine</div></div>
+  </div>
+  <div class="scroll-hint"><span data-fr="Menu" data-ar="القائمة" data-en="Menu">Menu</span><div class="scroll-line"></div></div>
+</header>
+
+<!-- MENU -->
+<section style="text-align:center">
+  <div class="section-label reveal" data-fr="Notre carte" data-ar="قائمتنا" data-en="Our Menu">Notre carte</div>
+  <div class="section-title reveal delay-1" data-fr="Le Menu" data-ar="القائمة" data-en="The Menu">Le Menu</div>
+  <div class="line-reveal reveal"></div>
+  <div class="divider reveal delay-2"><div class="divider-line"></div><i class="fas fa-fish divider-icon"></i><div class="divider-line" style="background:linear-gradient(to left,var(--gold-light),transparent)"></div></div>
+
+  <!-- MENU DU JOUR -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Menu du Jour" data-ar="وجبة اليوم" data-en="Daily Menu">Menu du Jour</div>
+    <div class="menu-category-sub" data-fr="Pour une personne" data-ar="لشخص واحد" data-en="Per person">Pour une personne</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Escalope Grillée" data-ar="إسكالوب مشوي" data-en="Grilled Escalope">Escalope Grillée</div><div class="menu-item-desc" data-fr="Soupe · Brick · Tastira · Frite · Couscous ou Riz" data-ar="شربة · بريك · تسطيرة · بطاطا · كسكسي أو أرز" data-en="Soup · Brick · Tastira · Fries · Couscous or Rice">Soupe · Brick · Tastira · Frite · Couscous ou Riz</div></div><div class="menu-item-price">25 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Escalope Panée" data-ar="إسكالوب مقلي" data-en="Breaded Escalope">Escalope Panée</div><div class="menu-item-desc" data-fr="Soupe · Brick · Tastira · Frite · Couscous ou Riz" data-ar="شربة · بريك · تسطيرة · بطاطا · كسكسي أو أرز" data-en="Soup · Brick · Tastira · Fries · Couscous or Rice">Soupe · Brick · Tastira · Frite · Couscous ou Riz</div></div><div class="menu-item-price">27 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Cordon Bleu" data-ar="كوردون بلو" data-en="Cordon Bleu">Cordon Bleu</div><div class="menu-item-desc" data-fr="Soupe · Brick · Tastira · Frite · Couscous ou Riz" data-ar="شربة · بريك · تسطيرة · بطاطا · كسكسي أو أرز" data-en="Soup · Brick · Tastira · Fries · Couscous or Rice">Soupe · Brick · Tastira · Frite · Couscous ou Riz</div></div><div class="menu-item-price">25 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Menu Enfant" data-ar="وجبة أطفال" data-en="Kids Menu">Menu Enfant</div><div class="menu-item-desc" data-fr="Doigts de Fatma · Frite · Cordon Bleu · Pâte sauce blanche" data-ar="بريك · بطاطا · كوردون بلو · مقرونة بيضاء" data-en="Fatma Fingers · Fries · Cordon Bleu · White sauce pasta">Doigts de Fatma · Frite · Cordon Bleu · Pâte sauce blanche</div></div><div class="menu-item-price">18 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Daurade" data-ar="وراطة" data-en="Sea Bream">Daurade</div><div class="menu-item-desc" data-fr="Soupe · Brick · Tastira · Frite · Couscous ou Riz" data-ar="شربة · بريك · تسطيرة · بطاطا · كسكسي أو أرز" data-en="Soup · Brick · Tastira · Fries · Couscous or Rice">Soupe · Brick · Tastira · Frite · Couscous ou Riz</div></div><div class="menu-item-price">22 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Loup de Mer" data-ar="قاروص" data-en="Sea Bass">Loup de Mer</div><div class="menu-item-desc" data-fr="Soupe · Brick · Tastira · Frite · Couscous ou Riz" data-ar="شربة · بريك · تسطيرة · بطاطا · كسكسي أو أرز" data-en="Soup · Brick · Tastira · Fries · Couscous or Rice">Soupe · Brick · Tastira · Frite · Couscous ou Riz</div></div><div class="menu-item-price">28 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- ENTREES FROIDES -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Entrées Froides" data-ar="مقبلات باردة" data-en="Cold Starters">Entrées Froides</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Salade Méchouia" data-ar="سلاطة مشوية" data-en="Mechouia Salad">Salade Méchouia</div></div><div class="menu-item-price">9.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Salade Tunisienne" data-ar="سلاطة تونسية" data-en="Tunisian Salad">Salade Tunisienne</div></div><div class="menu-item-price">9.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Salade Fruits de Mer" data-ar="سلاطة غلال البحر" data-en="Seafood Salad">Salade Fruits de Mer</div></div><div class="menu-item-price">30 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Salade Omek Houria" data-ar="سلاطة أمك حورية" data-en="Omek Houria Salad">Salade Omek Houria</div></div><div class="menu-item-price">9.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Kaftéji" data-ar="كفتاجي" data-en="Kaftéji">Kaftéji</div></div><div class="menu-item-price">9.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Tastira Haya" data-ar="تسطيرة حية" data-en="Fresh Tastira">Tastira Haya</div></div><div class="menu-item-price">9.5 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- ENTREES CHAUDES -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Entrées Chaudes" data-ar="مقبلات ساخنة" data-en="Hot Starters">Entrées Chaudes</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Soupe Poisson Frik" data-ar="شربة سمك" data-en="Fish Frik Soup">Soupe Poisson Frik</div><div class="menu-item-desc" data-fr="Grand bol" data-ar="حجم كبير" data-en="Large bowl">Grand bol</div></div><div class="menu-item-price">18 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Soupe Fruits de Mer Frik" data-ar="شربة غلال البحر" data-en="Seafood Frik Soup">Soupe Fruits de Mer Frik</div><div class="menu-item-desc" data-fr="Grand bol" data-ar="حجم كبير" data-en="Large bowl">Grand bol</div></div><div class="menu-item-price">29 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Soupe Fruits de Mer Sauce Blanche" data-ar="شربة غلال البحر بيضاء" data-en="Seafood Soup White Sauce">Soupe Fruits de Mer (Sauce Blanche)</div></div><div class="menu-item-price">30 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Bourghoul Fruits de Mer ou Seiches" data-ar="برغل غلال البحر أو صوبيا" data-en="Seafood or Cuttlefish Bulgur">Bourghoul Fruits de Mer ou Seiches</div></div><div class="menu-item-price">29 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Brick au Thon" data-ar="بريك بالتن" data-en="Tuna Brick">Brick au Thon</div></div><div class="menu-item-price">6.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Brick aux Chevrettes" data-ar="بريك بالجمبري" data-en="Shrimp Brick">Brick aux Chevrettes</div></div><div class="menu-item-price">9.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Supplément Frite" data-ar="إضافة بطاطا مقلية" data-en="Extra Fries">Supplément Frite</div></div><div class="menu-item-price">6.5 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- FRITURES -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Fritures & Croustillants" data-ar="المقليات والمقرمشات" data-en="Fried & Crispy">Fritures & Croustillants</div>
+    <div class="menu-category-sub" data-fr="Sans garniture" data-ar="بدون مقبلات" data-en="Without garnish">Sans garniture</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Crevettes aux Amandes (5 pcs)" data-ar="جمبري بالوز — 5 قطع" data-en="Almond Shrimp (5 pcs)">Crevettes aux Amandes (5 pcs)</div></div><div class="menu-item-price">60 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Crevettes aux Pistaches (5 pcs)" data-ar="جمبري بالفستق — 5 قطع" data-en="Pistachio Shrimp (5 pcs)">Crevettes aux Pistaches (5 pcs)</div></div><div class="menu-item-price">60 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Crevettes Kunafa (5 pcs)" data-ar="جمبري بالكنافة — 5 قطع" data-en="Kunafa Shrimp (5 pcs)">Crevettes Kunafa (5 pcs)</div></div><div class="menu-item-price">60 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Crevettes Panées (5 pcs)" data-ar="جمبري مقرمش — 5 قطع" data-en="Breaded Shrimp (5 pcs)">Crevettes Panées (5 pcs)</div></div><div class="menu-item-price">55 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Calamar Pané" data-ar="كلامار مقلي" data-en="Breaded Calamari">Calamar Pané</div></div><div class="menu-item-price">50 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Mixte (6 pcs)" data-ar="ميكست — 6 قطع" data-en="Mixed (6 pcs)">Mixte (6 pcs) <span class="best-seller">Best Seller</span></div></div><div class="menu-item-price">70 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- COUSCOUS -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Les Couscous" data-ar="الكسكسي" data-en="Couscous">Les Couscous</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Couscous Poulpe" data-ar="كسكسي قرنيط" data-en="Octopus Couscous">Couscous Poulpe</div></div><div class="menu-item-price">53 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Couscous Fruits de Mer" data-ar="كسكسي غلال البحر" data-en="Seafood Couscous">Couscous Fruits de Mer</div></div><div class="menu-item-price">53 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Couscous Le Grand Vert (2 pers.)" data-ar="كسكسي الأخضر الكبير — لشخصين" data-en="Le Grand Vert Couscous (2 pers.)">Couscous Le Grand Vert (2 pers.) <span class="best-seller">Best Seller</span></div></div><div class="menu-item-price">95 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Couscous aux Légumes" data-ar="كسكسي خضرة" data-en="Vegetable Couscous">Couscous aux Légumes</div></div><div class="menu-item-price">23 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Couscous Mérou" data-ar="كسكسي مناني" data-en="Grouper Couscous">Couscous Mérou</div></div><div class="menu-item-price">53 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Couscous Poisson" data-ar="كسكسي حوت" data-en="Fish Couscous">Couscous Poisson</div></div><div class="menu-item-price">53 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- RIZ -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Le Riz" data-ar="الأرز" data-en="Rice">Le Riz</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Riz Jerbi aux Fruits de Mer" data-ar="أرز جربي بغلال البحر" data-en="Jerbi Rice with Seafood">Riz Jerbi aux Fruits de Mer</div></div><div class="menu-item-price">46 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Riz à l'Espagnole" data-ar="أرز الإسباني" data-en="Spanish Style Rice">Riz à l'Espagnole <span class="best-seller">Best Seller</span></div></div><div class="menu-item-price">45 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- PATES -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Les Pâtes" data-ar="المعجنات" data-en="Pasta">Les Pâtes</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Spaghetti Escalope Poulet (Rouge)" data-ar="سباقيتي دجاج صلصة حمراء" data-en="Chicken Escalope Spaghetti (Red)">Spaghetti Escalope Poulet (Rouge)</div></div><div class="menu-item-price">33 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Spaghetti Escalope Poulet Alfredo" data-ar="سباقيتي دجاج ألفريدو" data-en="Chicken Escalope Alfredo">Spaghetti Escalope Poulet Alfredo</div></div><div class="menu-item-price">35 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Lasagne aux Fruits de Mer" data-ar="لازانيا غلال البحر" data-en="Seafood Lasagne">Lasagne aux Fruits de Mer</div></div><div class="menu-item-price">45 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Pâtes Style Arabe au Poisson" data-ar="مقرونة عربي بالحوت" data-en="Arabic Style Fish Pasta">Pâtes Style Arabe au Poisson</div></div><div class="menu-item-price">55 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Spaghetti Fruits de Mer (Rouge)" data-ar="سباقيتي غلال البحر حمراء" data-en="Seafood Spaghetti (Red)">Spaghetti Fruits de Mer (Rouge)</div></div><div class="menu-item-price">39 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Spaghetti Fruits de Mer (Blanche)" data-ar="سباقيتي غلال البحر بيضاء" data-en="Seafood Spaghetti (White)">Spaghetti Fruits de Mer (Blanche)</div></div><div class="menu-item-price">39 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- SAUCES -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Les Sauces" data-ar="الصلصات" data-en="Sauces">Les Sauces</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Kamounia (Seiche, Poulpe ou Fruits de Mer)" data-ar="كمونية (صوبيا أو قرنيط أو غلال البحر)" data-en="Kamounia (Cuttlefish, Octopus or Seafood)">Kamounia</div></div><div class="menu-item-price">49 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Fruits de Mer Sautés à l'ail" data-ar="غلال البحر بالزبدة والثوم" data-en="Garlic Butter Seafood">Fruits de Mer Sautés à l'ail</div></div><div class="menu-item-price">59 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Kabkabou" data-ar="كبكابو" data-en="Kabkabou">Kabkabou</div></div><div class="menu-item-price">58 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Fruits de Mer Sauce Blanche" data-ar="غلال البحر بصلصة بيضاء" data-en="Seafood White Sauce">Fruits de Mer Sauce Blanche</div></div><div class="menu-item-price">59 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Ojja Escalope" data-ar="عجة إسكالوب" data-en="Escalope Ojja">Ojja Escalope</div></div><div class="menu-item-price">29 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Ojja Fruits de Mer" data-ar="عجة غلال البحر" data-en="Seafood Ojja">Ojja Fruits de Mer</div></div><div class="menu-item-price">36 <span>DT</span></div></div>
+    </div>
+  </div>
+
+  <!-- BOISSONS & DESSERTS -->
+  <div class="menu-category reveal">
+    <div class="menu-category-title" data-fr="Boissons & Desserts" data-ar="مشروبات وحلويات" data-en="Drinks & Desserts">Boissons & Desserts</div>
+    <div class="menu-items">
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Café Expresso" data-ar="قهوة اكسبرس" data-en="Espresso">Café Expresso</div></div><div class="menu-item-price">5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Cappuccino" data-ar="كابتشينو" data-en="Cappuccino">Cappuccino</div></div><div class="menu-item-price">7 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Café Latte" data-ar="قهوة لاتيه" data-en="Café Latte">Café Latte</div></div><div class="menu-item-price">7 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Café Americano" data-ar="قهوة امريكانو" data-en="Americano">Café Americano</div></div><div class="menu-item-price">5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Ice Coffee" data-ar="قهوة مثلجة" data-en="Iced Coffee">Ice Coffee</div></div><div class="menu-item-price">8 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Thé à la Menthe" data-ar="شاي بالنعناع" data-en="Mint Tea">Thé à la Menthe</div></div><div class="menu-item-price">2.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Thé Baklawa" data-ar="شاي بقلاوة" data-en="Baklawa Tea">Thé Baklawa</div></div><div class="menu-item-price">8 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Jus de Saison" data-ar="عصير طبيعي" data-en="Seasonal Juice">Jus de Saison</div></div><div class="menu-item-price">7.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Eau Minérale" data-ar="ماء معدني" data-en="Mineral Water">Eau Minérale</div></div><div class="menu-item-price">4.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Eau Gazeuse" data-ar="ماء غازي" data-en="Sparkling Water">Eau Gazeuse</div></div><div class="menu-item-price">5.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Boisson Gazeuse" data-ar="مشروب غازي" data-en="Soft Drink">Boisson Gazeuse</div></div><div class="menu-item-price">4.5 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Fondant au Chocolat" data-ar="فوندان" data-en="Chocolate Fondant">Fondant au Chocolat</div></div><div class="menu-item-price">12 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="San Sebastian Cheesecake" data-ar="سان سبستيان" data-en="San Sebastian Cheesecake">San Sebastian Cheesecake <span class="best-seller">Best Seller</span></div></div><div class="menu-item-price">12 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Assiette Fruits de Saison" data-ar="صحن غلة حسب الفصل" data-en="Seasonal Fruit Plate">Assiette Fruits de Saison</div></div><div class="menu-item-price">18 <span>DT</span></div></div>
+      <div class="menu-item-row"><div class="menu-item-left"><div class="menu-item-name" data-fr="Assiette Hlow Arbi" data-ar="صحن حلو عربي" data-en="Arabic Sweets Plate">Assiette Hlow Arbi</div></div><div class="menu-item-price">25 <span>DT</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+<!-- ABOUT -->
+<section>
+  <div class="glass-card reveal-scale">
+    <div class="section-label reveal delay-1" data-fr="Notre histoire" data-ar="قصتنا" data-en="Our story">Notre histoire</div>
+    <div class="section-title reveal delay-2" data-fr="À propos" data-ar="من نحن" data-en="About">À propos</div>
+    <div class="about-grid">
+      <div class="about-card reveal-left delay-2">
+        <div class="about-kicker" data-fr="Maison familiale" data-ar="بيت عائلي" data-en="Family house">Maison familiale</div>
+        <div class="about-lead" data-fr="Plus de 15 ans de passion culinaire au cœur de La Goulette." data-ar="أكثر من 15 سنة من الشغف بالمطبخ في قلب حلق الوادي." data-en="More than 15 years of culinary passion in the heart of La Goulette.">Plus de 15 ans de passion culinaire au cœur de La Goulette.</div>
+        <div class="about-copy">
+          <p data-fr="Au cœur de La Goulette, Le Grand Vert incarne l’élégance d’une maison familiale où la passion de la cuisine se transmet depuis plus de 15 ans." data-ar="في قلب حلق الوادي، يجسّد الأخضر الكبير أناقة بيت عائلي تنتقل فيه محبة المطبخ منذ أكثر من 15 سنة." data-en="In the heart of La Goulette, Le Grand Vert embodies the elegance of a family home where the passion for cooking has been passed down for more than 15 years.">Au cœur de La Goulette, Le Grand Vert incarne l’élégance d’une maison familiale où la passion de la cuisine se transmet depuis plus de 15 ans.</p>
+          <p data-fr="À l’origine, notre mère, véritable âme de la cuisine, élaborait chaque recette avec précision, exigence et authenticité. Aujourd’hui, cette même passion rassemble toute la famille autour d’une vision commune : proposer une expérience culinaire sincère, raffinée et chaleureuse." data-ar="في البداية، كانت والدتنا، روح المطبخ الحقيقية، تُعد كل وصفة بدقة وأصالة. واليوم يجمع هذا الشغف نفسه العائلة كلها حول رؤية واحدة: تقديم تجربة صادقة وراقية ودافئة." data-en="At the beginning, our mother, the true soul of the kitchen, crafted every recipe with precision and authenticity. Today, that same passion brings the whole family together around one vision: offering a sincere, refined and warm dining experience.">À l’origine, notre mère, véritable âme de la cuisine, élaborait chaque recette avec précision, exigence et authenticité. Aujourd’hui, cette même passion rassemble toute la famille autour d’une vision commune : proposer une expérience culinaire sincère, raffinée et chaleureuse.</p>
+          <p data-fr="Notre carte met à l’honneur le couscous au mérou, les spaghetti aux fruits de mer, les grillades et les poissons sauvages soigneusement sélectionnés. Chaque assiette reflète l’équilibre entre tradition méditerranéenne et exigence contemporaine." data-ar="تُبرز قائمتنا كسكسي الميرو والسباغيتي بثمار البحر والمشاوي والأسماك البرية المنتقاة بعناية. كل طبق يعكس توازناً بين التقاليد المتوسطية واللمسة العصرية." data-en="Our menu highlights grouper couscous, seafood spaghetti, grilled specialties and carefully selected wild fish. Every plate reflects a balance between Mediterranean tradition and contemporary standards.">Notre carte met à l’honneur le couscous au mérou, les spaghetti aux fruits de mer, les grillades et les poissons sauvages soigneusement sélectionnés. Chaque assiette reflète l’équilibre entre tradition méditerranéenne et exigence contemporaine.</p>
+        </div>
+      </div>
+      <div class="about-card reveal-right delay-3">
+        <div class="about-kicker" data-fr="Signature" data-ar="بصمتنا" data-en="Signature">Signature</div>
+        <div class="about-highlights">
+          <div class="about-pill"><i class="fas fa-fish"></i><span data-fr="Spécialités de la mer & poissons sauvages" data-ar="اختصاصات بحرية وأسماك برية" data-en="Sea specialties & wild fish">Spécialités de la mer & poissons sauvages</span></div>
+          <div class="about-pill"><i class="fas fa-bowl-food"></i><span data-fr="Couscous au mérou & recettes maison" data-ar="كسكسي الميرو ووصفات البيت" data-en="Grouper couscous & homemade recipes">Couscous au mérou & recettes maison</span></div>
+          <div class="about-pill"><i class="fas fa-fire-burner"></i><span data-fr="Grillades, fraîcheur et cuisson maîtrisée" data-ar="مشاوي وطزاجة وطهي متقن" data-en="Grillades, freshness and precise cooking">Grillades, fraîcheur et cuisson maîtrisée</span></div>
+          <div class="about-pill"><i class="fas fa-heart"></i><span data-fr="Accueil familial, élégant et chaleureux" data-ar="استقبال عائلي أنيق ودافئ" data-en="Elegant and warm family welcome">Accueil familial, élégant et chaleureux</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+
+<!-- SOCIAL -->
+<section style="text-align:center">
+  <div class="glass-card reveal-scale">
+    <div class="section-label reveal delay-1" data-fr="Restez connectés" data-ar="تابعونا" data-en="Stay connected">Restez connectés</div>
+    <div class="section-title reveal delay-2" data-fr="Suivez-nous" data-ar="تابعونا على" data-en="Follow us">Suivez-nous</div>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/legrandvertlagoulette" target="_blank" class="social-link reveal-left delay-3"><div class="social-icon-wrap"><i class="fab fa-facebook fb"></i></div><span class="social-label">Facebook</span></a>
+      <a href="https://www.instagram.com/le_grand_vert_/" target="_blank" class="social-link reveal-right delay-3"><div class="social-icon-wrap"><i class="fab fa-instagram ig"></i></div><span class="social-label">Instagram</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+<!-- WIFI -->
+<section style="text-align:center">
+  <div class="glass-card reveal-scale">
+    <div class="section-label reveal delay-1" data-fr="Connexion gratuite" data-ar="اتصال مجاني" data-en="Free connection">Connexion gratuite</div>
+    <div class="section-title reveal delay-2" data-fr="WiFi Invité" data-ar="واي فاي مجاني" data-en="Guest WiFi">WiFi Invité</div>
+    <div class="wifi-inner">
+      <p class="reveal delay-3" style="opacity:0.5;font-size:13px" data-fr="Scannez le QR code pour vous connecter" data-ar="امسح رمز QR للاتصال" data-en="Scan the QR code to connect">Scannez le QR code pour vous connecter</p>
+      <img src="wifi.jpg" alt="QR Code WiFi" class="wifi-qr reveal-scale delay-3">
+      <div class="reveal delay-4" style="font-size:12px;opacity:0.4;letter-spacing:0.15em">
+        <i class="fas fa-wifi" style="color:var(--green-light);margin-right:6px"></i>
+        <span data-fr="Réseau : Le Grand Vert" data-ar="الشبكة : Le Grand Vert" data-en="Network: Le Grand Vert">Réseau : Le Grand Vert</span>
+      </div>
+      <a href="WIFI:T:WPA;S:Le Grand Vert;P:LEGRANDVERT.;;" class="btn-premium btn-green reveal delay-5"><i class="fas fa-wifi"></i> <span data-fr="Se connecter" data-ar="اتصل الآن" data-en="Connect">Se connecter</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+<!-- REVIEW -->
+<section style="text-align:center">
+  <div class="glass-card reveal-scale">
+    <div class="section-label reveal delay-1" data-fr="Votre opinion compte" data-ar="رأيك يهمنا" data-en="Your opinion matters">Votre opinion compte</div>
+    <div class="section-title reveal delay-2" data-fr="Partagez votre expérience" data-ar="شاركنا تجربتك" data-en="Share your experience">Partagez votre expérience</div>
+    <div class="stars reveal delay-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+    <a href="https://g.page/r/CYn9bNroFYBHEBE/review" target="_blank" class="btn-premium reveal delay-4"><i class="fab fa-google"></i> <span data-fr="Laisser un avis Google" data-ar="اترك تقييماً على Google" data-en="Leave a Google review">Laisser un avis Google</span></a>
+  </div>
+</section>
+
+<div class="section-sep reveal"></div>
+
+<footer>
+  <div class="footer-logo reveal">Le Grand Vert</div>
+  <div class="footer-copy reveal delay-2">© 2026 Le Grand Vert — La Goulette</div>
+</footer>
+
+<script>
+  let currentLang = 'fr';
+
+  /* ── LANGUE ── */
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+    document.body.classList.remove('lang-fr', 'lang-ar', 'lang-en');
+    document.body.classList.add('lang-' + lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-fr]').forEach(el => { if (el.dataset[lang]) el.textContent = el.dataset[lang]; });
+    const ph = { fr: 'Votre nom', ar: 'اسمك', en: 'Your name' };
+    const resaNom = document.getElementById('resaNom');
+    if (resaNom) resaNom.placeholder = ph[lang];
+    updateStatus();
+  }
+
+  /* ── STATUS ── */
+  function updateStatus() {
+    const now = new Date();
+    const tot = now.getHours() * 60 + now.getMinutes();
+    const mo = now.getMonth();
+    const isSummer = mo >= 5 && mo <= 8;
+    const closeMin = isSummer ? 24 * 60 : 22 * 60;
+    const isOpen = tot >= 11 * 60 + 30 && tot < closeMin;
+    const badge = document.getElementById('statusBadge');
+    const text = document.getElementById('statusText');
+    badge.className = 'status-badge ' + (isOpen ? 'open' : 'closed');
+    const labels = { fr: isOpen ? 'Ouvert' : 'Fermé', ar: isOpen ? 'مفتوح' : 'مغلق', en: isOpen ? 'Open' : 'Closed' };
+    text.textContent = labels[currentLang];
+  }
+
+  /* ── TIME SLOTS ── */
+  function buildTimeSlots() {
+    const sel = document.getElementById('resaHeure');
+    const di = document.getElementById('resaDate');
+    if (!sel || !di) return;
+    const isSummer = new Date().getMonth() >= 5 && new Date().getMonth() <= 8;
+    const closeH = isSummer ? 24 : 22;
+    sel.innerHTML = '<option value="">-- Heure --</option>';
+    for (let h = 11; h < closeH; h++) {
+      const start = h === 11 ? 30 : 0;
+      for (let m = start; m < 60; m += 30) {
+        const opt = document.createElement('option');
+        const hs = String(h % 24).padStart(2, '0'), ms = String(m).padStart(2, '0');
+        opt.value = opt.textContent = `${hs}:${ms}`;
+        sel.appendChild(opt);
+      }
+    }
+    const today = new Date().toISOString().split('T')[0];
+    di.min = today; di.value = today;
+  }
+
+
+  /* ── SCROLL PROGRESS BAR ── */
+  function updateProgress() {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    document.getElementById('scrollProgress').style.width = pct + '%';
+  }
+
+  /* ── NAVBAR SCROLL ── */
+  function updateNav() {
+    const bar = document.getElementById('langBar');
+    bar.classList.toggle('scrolled', window.scrollY > 60);
+  }
+
+  /* ── BIDIRECTIONAL SCROLL ANIMATIONS ── */
+  const animEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale,.line-reveal,.section-sep');
+  let lastScrollY = window.scrollY;
+  let scrollingDown = true;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        // Entrer en vue : ajouter visible, enlever exit
+        e.target.classList.remove('exit-up', 'exit-down');
+        // Petit délai pour que la transition CSS s'applique
+        requestAnimationFrame(() => e.target.classList.add('visible'));
+      } else {
+        // Sortir de vue
+        const rect = e.target.getBoundingClientRect();
+        if (rect.top < 0) {
+          // L'élément est sorti par le haut (scroll vers le bas)
+          e.target.classList.remove('visible');
+          e.target.classList.add('exit-up');
+        } else {
+          // L'élément est sorti par le bas (scroll vers le haut → on fait réapparaître depuis le bas)
+          e.target.classList.remove('visible', 'exit-up');
+          // Retirer exit-down pour resetter à l'état initial (translateY 50px)
+          e.target.classList.remove('exit-down');
+        }
+      }
+    });
+  }, { threshold: 0.12 });
+
+  animEls.forEach(el => obs.observe(el));
+
+  /* ── PARALLAX RINGS ── */
+  window.addEventListener('scroll', () => {
+    const s = window.scrollY;
+    document.querySelectorAll('.ring').forEach((r, i) => {
+      r.style.transform = `rotate(${s * (i + 1) * 0.06 * (i % 2 === 0 ? 1 : -1)}deg) translateY(${s * 0.04}px)`;
+    });
+    updateProgress();
+    updateNav();
+  }, { passive: true });
+
+  /* ── STAR ANIMATION ── */
+  const starsEl = document.querySelector('.stars');
+  if (starsEl) {
+    const so = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('i').forEach((s, i) => {
+            s.style.cssText = `opacity:0;transform:scale(0) rotate(-30deg);transition:opacity 0.4s ease ${i * 0.1 + 0.3}s,transform 0.4s cubic-bezier(0.34,1.56,0.64,1) ${i * 0.1 + 0.3}s`;
+            setTimeout(() => { s.style.opacity = '1'; s.style.transform = 'scale(1) rotate(0deg)'; }, 50);
+          });
+          so.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    so.observe(starsEl);
+  }
+
+  /* ── COUNTERS ── */
+  function animateCounters() {
+    document.querySelectorAll('.stat-num[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      const suffix = target >= 500 ? '+' : '';
+      let current = 0;
+      const step = Math.max(1, Math.floor(target / 60));
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current + suffix;
+        if (current >= target) clearInterval(timer);
+      }, 20);
+    });
+  }
+  setTimeout(animateCounters, 1000);
+
+  /* ── PARTICLES sur le hero ── */
+  function createParticles() {
+    const header = document.querySelector('header');
+    for (let i = 0; i < 12; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 4 + 2;
+      p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;top:${50 + Math.random() * 40}%;animation:floatUp ${3 + Math.random() * 4}s ease-in-out ${Math.random() * 5}s infinite;`;
+      header.appendChild(p);
+    }
+  }
+  createParticles();
+
+  buildTimeSlots();
+  updateStatus();
+  updateNav();
+  setInterval(updateStatus, 60000);
+</script>
+</body>
+</html>
