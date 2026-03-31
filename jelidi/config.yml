@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: goulette-coder/legrandvert-site
   branch: main
 
 media_folder: "images/uploads"
@@ -14,7 +15,6 @@ collections:
         file: "content/home.json"
         fields:
           - { label: "Titre", name: "title", widget: "string" }
-          - { label: "Sous-titre", name: "subtitle", widget: "string", required: false }
           - { label: "À propos", name: "about", widget: "text" }
           - { label: "Facebook", name: "facebook", widget: "string", required: false }
           - { label: "Instagram", name: "instagram", widget: "string", required: false }
