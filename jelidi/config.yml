@@ -1,21 +1,14 @@
-backend:
-  name: github
-  repo: goulette-coder/legrandvert-site
-  branch: main
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Le Grand Vert CMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
-
-collections:
-  - name: "site"
-    label: "Site"
-    files:
-      - label: "Contenu principal"
-        name: "home"
-        file: "content/home.json"
-        fields:
-          - { label: "Titre", name: "title", widget: "string" }
-          - { label: "À propos", name: "about", widget: "text" }
-          - { label: "Facebook", name: "facebook", widget: "string", required: false }
-          - { label: "Instagram", name: "instagram", widget: "string", required: false }
-          - { label: "Google Review", name: "google_review", widget: "string", required: false }
+  <link href="/jelidi/config.yml" type="text/yaml" rel="cms-config-url" />
+</head>
+<body>
+  <div id="nc-root"></div>
+  <script src="https://unpkg.com/decap-cms@3.1.3/dist/decap-cms.js"></script>
+</body>
+</html>
