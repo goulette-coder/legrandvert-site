@@ -2,7 +2,12 @@
   "title": "Le Grand Vert",
   "subtitle": "La Goulette",
   "about": "Au cœur de La Goulette, Le Grand Vert incarne l’élégance d’une maison familiale où la passion de la cuisine se transmet depuis plus de 15 ans.",
+  "address_fr": "05 Avenue Franklin Roosevelt, 2060 La Goulette, Tunis, Tunisie",
+  "address_ar": "05 شارع فرانكلين روزفلت، 2060 حلق الوادي، تونس، تونس",
+  "phone": "+21625371932",
+  "hours": "Tous les jours : 11:30 - 22:30",
   "facebook": "https://www.facebook.com/legrandvertlagoulette",
   "instagram": "https://www.instagram.com/le_grand_vert_/",
-  "google_review": "https://g.page/r/CYn9bNroFYBHEBE/review"
+  "google_review": "https://g.page/r/CYn9bNroFYBHEBE/review",
+  "maps": "https://maps.app.goo.gl/8jdGqBes5VQCZt97A"
 }
